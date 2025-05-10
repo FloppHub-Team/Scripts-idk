@@ -1,0 +1,389 @@
+local flySpeed = 100
+local minSpeed = 1
+local maxSpeed = 2000
+local shiftLockEnabled = true -- Default to enabled
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "FlyControlGui"
+ScreenGui.Parent = game:GetService("CoreGui")
+
+local Frame = Instance.new("Frame")
+Frame.Name = "MainFrame"
+Frame.Size = UDim2.new(0, 200, 0, 180) -- Increased height for new button
+Frame.Position = UDim2.new(0.5, -100, 0.5, -90)
+Frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+Frame.BorderColor3 = Color3.fromRGB(20, 20, 20)
+Frame.BorderSizePixel = 2
+Frame.Active = true
+Frame.Draggable = true
+Frame.ClipsDescendants = true
+Frame.Parent = ScreenGui
+
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 8)
+UICorner.Parent = Frame
+
+game:GetService("StarterGui"):SetCore("SendNotification", { 
+    Title = " | VFLY GUI" ;
+    Text = "FloppHub Team On The Top ";
+    Icon = "rbxthumb://type=Asset&id=112586798808707&w=150&h=150";
+    Duration = 10;
+})
+
+local Title = Instance.new("TextLabel")
+Title.Name = "Title"
+Title.Size = UDim2.new(1, 0, 0, 30)
+Title.Position = UDim2.new(0, 0, 0, 0)
+Title.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+Title.BorderSizePixel = 0
+Title.Text = "VFLY GUI"
+Title.TextColor3 = Color3.fromRGB(200, 200, 200)
+Title.Font = Enum.Font.Gotham
+Title.TextSize = 14
+Title.Parent = Frame
+
+local TitleCorner = Instance.new("UICorner")
+TitleCorner.CornerRadius = UDim.new(0, 8)
+TitleCorner.Parent = Title
+
+local CloseButton = Instance.new("TextButton")
+CloseButton.Name = "CloseButton"
+CloseButton.Size = UDim2.new(0, 20, 0, 20)
+CloseButton.Position = UDim2.new(1, -25, 0, 5)
+CloseButton.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+CloseButton.BorderSizePixel = 0
+CloseButton.Text = "X"
+CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseButton.Font = Enum.Font.GothamBold
+CloseButton.TextSize = 14
+CloseButton.Parent = Title
+
+local CloseButtonCorner = Instance.new("UICorner")
+CloseButtonCorner.CornerRadius = UDim.new(0, 10)
+CloseButtonCorner.Parent = CloseButton
+
+CloseButton.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+local MinimizeButton = Instance.new("TextButton")
+MinimizeButton.Name = "MinimizeButton"
+MinimizeButton.Size = UDim2.new(0, 20, 0, 20)
+MinimizeButton.Position = UDim2.new(1, -50, 0, 5)
+MinimizeButton.BackgroundColor3 = Color3.fromRGB(70, 120, 255)
+MinimizeButton.BorderSizePixel = 0
+MinimizeButton.Text = "-"
+MinimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+MinimizeButton.Font = Enum.Font.GothamBold
+MinimizeButton.TextSize = 14
+MinimizeButton.Parent = Title
+
+local MinimizeButtonCorner = Instance.new("UICorner")
+MinimizeButtonCorner.CornerRadius = UDim.new(0, 10)
+MinimizeButtonCorner.Parent = MinimizeButton
+
+local MainContent = Instance.new("Frame")
+MainContent.Name = "MainContent"
+MainContent.Size = UDim2.new(1, 0, 1, -30)
+MainContent.Position = UDim2.new(0, 0, 0, 30)
+MainContent.BackgroundTransparency = 1
+MainContent.Parent = Frame
+
+local ToggleButton = Instance.new("TextButton")
+ToggleButton.Name = "ToggleButton"
+ToggleButton.Size = UDim2.new(0.9, 0, 0, 30)
+ToggleButton.Position = UDim2.new(0.05, 0, 0, 40)
+ToggleButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+ToggleButton.BorderSizePixel = 0
+ToggleButton.Text = "ENABLE VFLY"
+ToggleButton.TextColor3 = Color3.fromRGB(200, 200, 200)
+ToggleButton.Font = Enum.Font.Gotham
+ToggleButton.TextSize = 12
+ToggleButton.Parent = Frame
+
+local ButtonCorner = Instance.new("UICorner")
+ButtonCorner.CornerRadius = UDim.new(0, 6)
+ButtonCorner.Parent = ToggleButton
+
+-- New Shift-Lock Toggle Button
+local ShiftLockButton = Instance.new("TextButton")
+ShiftLockButton.Name = "ShiftLockButton"
+ShiftLockButton.Size = UDim2.new(0.9, 0, 0, 30)
+ShiftLockButton.Position = UDim2.new(0.05, 0, 0, 80)
+ShiftLockButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+ShiftLockButton.BorderSizePixel = 0
+ShiftLockButton.Text = "SHIFTLOCK: ON"
+ShiftLockButton.TextColor3 = Color3.fromRGB(200, 200, 200)
+ShiftLockButton.Font = Enum.Font.Gotham
+ShiftLockButton.TextSize = 12
+ShiftLockButton.Parent = Frame
+
+local ShiftLockCorner = Instance.new("UICorner")
+ShiftLockCorner.CornerRadius = UDim.new(0, 6)
+ShiftLockCorner.Parent = ShiftLockButton
+
+ShiftLockButton.MouseButton1Click:Connect(function()
+    shiftLockEnabled = not shiftLockEnabled
+    if shiftLockEnabled then
+        ShiftLockButton.Text = "SHIFTLOCK: ON"
+        ShiftLockButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    else
+        ShiftLockButton.Text = "SHIFTLOCK: OFF"
+        ShiftLockButton.BackgroundColor3 = Color3.fromRGB(80, 60, 60)
+    end
+end)
+
+local SpeedSlider = Instance.new("Frame")
+SpeedSlider.Name = "SpeedSlider"
+SpeedSlider.Size = UDim2.new(0.9, 0, 0, 50)
+SpeedSlider.Position = UDim2.new(0.05, 0, 0, 120) -- Adjusted position for new button
+SpeedSlider.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+SpeedSlider.BorderSizePixel = 0
+SpeedSlider.Parent = Frame
+
+local SliderCorner = Instance.new("UICorner")
+SliderCorner.CornerRadius = UDim.new(0, 6)
+SliderCorner.Parent = SpeedSlider
+
+local SpeedText = Instance.new("TextLabel")
+SpeedText.Name = "SpeedText"
+SpeedText.Size = UDim2.new(1, 0, 0, 20)
+SpeedText.Position = UDim2.new(0, 0, 0, 0)
+SpeedText.BackgroundTransparency = 1
+SpeedText.Text = "SPEED: " .. flySpeed
+SpeedText.TextColor3 = Color3.fromRGB(200, 200, 200)
+SpeedText.Font = Enum.Font.Gotham
+SpeedText.TextSize = 12
+SpeedText.Parent = SpeedSlider
+
+local SliderBar = Instance.new("Frame")
+SliderBar.Name = "SliderBar"
+SliderBar.Size = UDim2.new(0.9, 0, 0, 6)
+SliderBar.Position = UDim2.new(0.05, 0, 0, 25)
+SliderBar.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+SliderBar.BorderSizePixel = 0
+SliderBar.Parent = SpeedSlider
+
+local BarCorner = Instance.new("UICorner")
+BarCorner.CornerRadius = UDim.new(0, 3)
+BarCorner.Parent = SliderBar
+
+local SliderFill = Instance.new("Frame")
+SliderFill.Name = "SliderFill"
+SliderFill.Size = UDim2.new((flySpeed - minSpeed) / (maxSpeed - minSpeed), 0, 1, 0)
+SliderFill.Position = UDim2.new(0, 0, 0, 0)
+SliderFill.BackgroundColor3 = Color3.fromRGB(100, 100, 255)
+SliderFill.BorderSizePixel = 0
+SliderFill.Parent = SliderBar
+
+local FillCorner = Instance.new("UICorner")
+FillCorner.CornerRadius = UDim.new(0, 3)
+FillCorner.Parent = SliderFill
+
+local SliderButton = Instance.new("TextButton")
+SliderButton.Name = "SliderButton"
+SliderButton.Size = UDim2.new(0, 20, 0, 20)
+SliderButton.Position = UDim2.new((flySpeed - minSpeed) / (maxSpeed - minSpeed), -10, 0.5, -10)
+SliderButton.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
+SliderButton.BorderSizePixel = 0
+SliderButton.Text = ""
+SliderButton.Parent = SliderBar
+
+local SliderButtonCorner = Instance.new("UICorner")
+SliderButtonCorner.CornerRadius = UDim.new(0, 10)
+SliderButtonCorner.Parent = SliderButton
+
+local isMinimized = false
+
+local function toggleMinimize()
+    isMinimized = not isMinimized
+    
+    if isMinimized then
+        Frame.Size = UDim2.new(0, 200, 0, 30)
+        MainContent.Visible = false
+        MinimizeButton.Text = "+"
+    else
+        Frame.Size = UDim2.new(0, 200, 0, 180)
+        MainContent.Visible = true
+        MinimizeButton.Text = "-"
+    end
+end
+
+MinimizeButton.MouseButton1Click:Connect(toggleMinimize)
+
+-- Enhanced VFly Implementation with Toggleable Shift-Lock
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local camera = workspace.CurrentCamera
+local ControlModule = require(player.PlayerScripts:WaitForChild("PlayerModule"):WaitForChild("ControlModule"))
+
+local VelocityHandler = nil
+local GyroHandler = nil
+local flConnections = {}
+local flying = false
+
+local function setupFlyInstances(char)
+    if not char or not char:FindFirstChild("HumanoidRootPart") then return end
+    
+    if VelocityHandler then
+        VelocityHandler:Destroy()
+        VelocityHandler = nil
+    end
+    if GyroHandler then
+        GyroHandler:Destroy()
+        GyroHandler = nil
+    end
+    
+    local root = char:WaitForChild("HumanoidRootPart")
+    
+    VelocityHandler = Instance.new("BodyVelocity")
+    VelocityHandler.Name = "VelocityHandler"
+    VelocityHandler.Parent = root
+    VelocityHandler.MaxForce = Vector3.new(0, 0, 0)
+    VelocityHandler.Velocity = Vector3.new(0, 0, 0)
+    
+    GyroHandler = Instance.new("BodyGyro")
+    GyroHandler.Name = "GyroHandler"
+    GyroHandler.Parent = root
+    GyroHandler.MaxTorque = Vector3.new(9e9, 9e9, 9e9)
+    GyroHandler.P = 10000
+    GyroHandler.D = 1000
+    GyroHandler.CFrame = root.CFrame
+end
+
+local function EnableFly()
+    character = player.Character or player.CharacterAdded:Wait()
+    setupFlyInstances(character)
+    
+    for _, conn in ipairs(flConnections) do
+        conn:Disconnect()
+    end
+    flConnections = {}
+
+    flying = true
+    ToggleButton.Text = "DISABLE VFLY"
+    ToggleButton.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+
+    table.insert(flConnections, RunService.RenderStepped:Connect(function()
+        if not character or not character:FindFirstChild("HumanoidRootPart") or not VelocityHandler or not GyroHandler then 
+            DisableFly()
+            return 
+        end
+        
+        local root = character.HumanoidRootPart
+        local moveVec = ControlModule:GetMoveVector()
+        
+        -- Apply shift-lock if enabled
+        if shiftLockEnabled then
+            GyroHandler.CFrame = CFrame.new(root.Position, root.Position + camera.CFrame.LookVector)
+        end
+        
+        local camCFrame = camera.CFrame
+        local rawMove = (camCFrame.RightVector * moveVec.X - camCFrame.LookVector * moveVec.Z)
+        local moveDirection = rawMove.Magnitude > 0 and rawMove.Unit or Vector3.new(0, 0, 0)
+        
+        local velocity = moveDirection * flySpeed
+
+        VelocityHandler.MaxForce = Vector3.new(9e9, 9e9, 9e9)
+        VelocityHandler.Velocity = velocity
+
+        -- If shift-lock is off, update rotation based on movement
+        if not shiftLockEnabled and moveDirection.Magnitude > 0 then
+            GyroHandler.CFrame = CFrame.new(root.Position, root.Position + moveDirection)
+        end
+    end))
+end
+
+local function DisableFly()
+    if VelocityHandler then
+        VelocityHandler:Destroy()
+        VelocityHandler = nil
+    end
+    if GyroHandler then
+        GyroHandler:Destroy()
+        GyroHandler = nil
+    end
+    
+    for _, conn in ipairs(flConnections) do
+        conn:Disconnect()
+    end
+    flConnections = {}
+    
+    flying = false
+    ToggleButton.Text = "ENABLE VFLY"
+    ToggleButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+end
+
+ToggleButton.MouseButton1Click:Connect(function()
+    if flying then
+        DisableFly()
+    else
+        EnableFly()
+    end
+end)
+
+player.CharacterAdded:Connect(function(char)
+    character = char
+    char:WaitForChild("Humanoid").Died:Connect(function()
+        DisableFly()
+    end)
+    
+    if flying then
+        EnableFly()
+    end
+end)
+
+-- Slider functionality
+local sliding = false
+
+local function updateSlider(input)
+    if sliding then
+        local sliderAbsolutePosition = SliderBar.AbsolutePosition
+        local sliderAbsoluteSize = SliderBar.AbsoluteSize
+        
+        local touchPosition
+        if input.UserInputType == Enum.UserInputType.Touch then
+            touchPosition = input.Position
+        else
+            touchPosition = UserInputService:GetMouseLocation()
+        end
+        
+        local relativeX = (touchPosition.X - sliderAbsolutePosition.X) / sliderAbsoluteSize.X
+        relativeX = math.clamp(relativeX, 0, 1)
+        
+        SliderButton.Position = UDim2.new(relativeX, -10, 0.5, -10)
+        SliderFill.Size = UDim2.new(relativeX, 0, 1, 0)
+        
+        flySpeed = math.floor(minSpeed + (maxSpeed - minSpeed) * relativeX)
+        SpeedText.Text = "SPEED: " .. flySpeed
+    end
+end
+
+SliderButton.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
+        sliding = true
+    end
+end)
+
+SliderBar.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.Touch then
+        sliding = true
+        updateSlider(input)
+    end
+end)
+
+UserInputService.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
+        sliding = false
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if sliding and (input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseMovement) then
+        updateSlider(input)
+    end
+end)
