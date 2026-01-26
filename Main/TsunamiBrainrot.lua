@@ -5,11 +5,11 @@ _G.BaseTweenSpeed = 0.15
 _G.AutoTourActive = false
 _G.ReverseTourActive = false
 _G.PostWaveBuffer = 0.05 
-_G.CelestialSoundID = "73087452882886" -- Your Default ID
+_G.CelestialSoundID = "73087452882886"
 
 
 local Window = Rayfield:CreateWindow({
-   Name = "Escape Tsunami For Brainrots!",
+   Name = "Escape Tsunami For Brainrots! - FloppHub Team",
    LoadingTitle = "Loading cool script",
    LoadingSubtitle = "by rtz_andruuux",
    ConfigurationSaving = {Enabled = true, FolderName = "TsunamiScript"},
