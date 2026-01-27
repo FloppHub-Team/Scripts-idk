@@ -348,7 +348,7 @@ end
 MainTab:CreateSection("ℹ️ Info")
 
 MainTab:CreateParagraph({
-    Title = "Welcome to Fixz Hub!",
+    Title = "Welcome to Flopp Hub!",
     Content = "Criminal Tycoon auto farm script. Enable Auto ATM Farm for passive income, or use robberies for bigger payouts!"
 })
 
