@@ -6,10 +6,10 @@ if game.PlaceId ~= 14218711698 then
     return
 end
 
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield '))()
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "FloppHub Team | Criminal Tycoon",
+    Name = "FloppHub Team | Criminal Tycoon 🔫",
     LoadingTitle = "FeliciaXxxTop",
     LoadingSubtitle = "Criminal Tycoon Edition",
     ConfigurationSaving = {
@@ -576,7 +576,7 @@ MiscTab:CreateButton({
     Callback = function()
         local success = pcall(function()
             local servers = HttpService:JSONDecode(
-                game:HttpGet("https://games.roblox.com/v1/games/ " .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100")
+                game:HttpGet("https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100")
             )
             
             for _, server in pairs(servers.data) do
