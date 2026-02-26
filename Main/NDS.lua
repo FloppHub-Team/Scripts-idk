@@ -10,7 +10,7 @@ local Lighting = game:GetService("Lighting")
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/FloppHub-Team/UIs/refs/heads/main/RedzLib%20Cracked"))()
 
-local HubVersion = "2.0"
+local HubVersion = "2.1"
 local LastDisaster = ""
 local CurrentLanguage = "Spanish"
 local SpamLooping = false
@@ -95,7 +95,7 @@ end)
 local Window = Library:MakeWindow({
     Title = "Flopp Hub | Natural Disaster",
     SubTitle = "By Rtz_Andruuux",
-    SaveFolder = "FloppHubOnTop"
+    FolderName = "FloppHubOnTop"
 })
 
 Window:Notify({
@@ -130,7 +130,7 @@ Tab_Home:AddButton({
 Tab_Main:AddSection("Automatización")
 
 Tab_Main:AddToggle({
-    Name = "AutoFarme Victoria",
+    Name = "AutoFarme Victoria", Flag = "AutoFarmeVictoria", Save = true,
     Default = false,
     Callback = function(Value)
         if Value then
@@ -152,12 +152,12 @@ Tab_Main:AddButton({
 })
 
 Tab_Main:AddToggle({
-    Name = "Elegir Mapa (Parcheado)", Default = false,
+    Name = "Elegir Mapa (Parcheado)", Flag = "ElegirMapaParcheado", Save = true, Default = false,
     Callback = function(Value) pcall(function() LocalPlayer.PlayerGui.MainGui.MapVotePage.Visible = Value end) end
 })
 
 Tab_Main:AddToggle({
-    Name = "Auto Notify Disaster",
+    Name = "Auto Notify Disaster", Flag = "AutoNotifyDisaster", Save = true,
     Default = false,
     Callback = function(Value)
         getgenv().AutoNotify = Value
@@ -181,7 +181,7 @@ Tab_Main:AddToggle({
 })
 
 Tab_Main:AddDropdown({
-    Name = "Idioma Notificación",
+    Name = "Idioma Notificación", Flag = "IdiomaNotificacin", Save = true,
     Default = "Spanish",
     Options = {"Portuguese", "English", "Spanish", "Russian"},
     Callback = function(Value) CurrentLanguage = Value end
@@ -212,7 +212,7 @@ Tab_Main:AddTextBox({
     Callback = function(Value) SpamDelay = tonumber(Value) or 1 end
 })
 Tab_Main:AddToggle({
-    Name = "Loop de Mensajes", Default = false,
+    Name = "Loop de Mensajes", Flag = "LoopdeMensajes", Save = true, Default = false,
     Callback = function(Value)
         SpamLooping = Value
         if Value then
@@ -229,12 +229,12 @@ Tab_Main:AddToggle({
 Tab_Player:AddSection("Atributos")
 
 Tab_Player:AddSlider({
-    Name = "FOV", Min = 70, Max = 120, Default = 70, Increment = 1,
+    Name = "FOV", Flag = "FOV", Save = true, Min = 70, Max = 120, Default = 70, Increment = 1,
     Callback = function(Value) workspace.CurrentCamera.FieldOfView = Value end
 })
 
 Tab_Player:AddSlider({
-    Name = "Velocidad", Min = 16, Max = 500, Default = 16, Increment = 1,
+    Name = "Velocidad", Flag = "Velocidad", Save = true, Min = 16, Max = 500, Default = 16, Increment = 1,
     Callback = function(Value)
         getgenv().Walkspeed = Value
         if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
@@ -244,7 +244,7 @@ Tab_Player:AddSlider({
 })
 
 Tab_Player:AddSlider({
-    Name = "Salto", Min = 50, Max = 500, Default = 50, Increment = 1,
+    Name = "Salto", Flag = "Salto", Save = true, Min = 50, Max = 500, Default = 50, Increment = 1,
     Callback = function(Value)
         getgenv().Jumppower = Value
         if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
@@ -254,7 +254,7 @@ Tab_Player:AddSlider({
 })
 
 Tab_Player:AddToggle({
-    Name = "Loop de Velocidad", Default = false,
+    Name = "Loop de Velocidad", Flag = "LoopdeVelocidad", Save = true, Default = false,
     Callback = function(Value)
         LoopSpeed = Value
         task.spawn(function()
@@ -267,7 +267,7 @@ Tab_Player:AddToggle({
 })
 
 Tab_Player:AddToggle({
-    Name = "Loop de Salto", Default = false,
+    Name = "Loop de Salto", Flag = "LoopdeSalto", Save = true, Default = false,
     Callback = function(Value)
         LoopJump = Value
         task.spawn(function()
@@ -282,7 +282,7 @@ Tab_Player:AddToggle({
 Tab_Player:AddSection("Características")
 
 Tab_Player:AddToggle({
-    Name = "Sin daño por caída", Default = false,
+    Name = "Sin daño por caída", Flag = "Sindaoporcada", Save = true, Default = false,
     Callback = function(Value)
         AntiFallActive = Value
         if Value then
@@ -305,12 +305,12 @@ Tab_Player:AddToggle({
 })
 
 Tab_Player:AddToggle({
-    Name = "Infinite Jump", Default = false,
+    Name = "Infinite Jump", Flag = "InfiniteJump", Save = true, Default = false,
     Callback = function(Value) MainConfig.infjump = Value end
 })
 
 Tab_Player:AddToggle({
-    Name = "NoPlayer Collision", Default = false,
+    Name = "NoPlayer Collision", Flag = "NoPlayerCollision", Save = true, Default = false,
     Callback = function(state)
         local partsToNoClip = { "HumanoidRootPart", "UpperTorso", "LowerTorso", "Torso" }
         if state then
@@ -333,7 +333,7 @@ Tab_Player:AddToggle({
 })
 
 Tab_Player:AddToggle({
-    Name = "Caminar sobre el Agua", Default = false,
+    Name = "Caminar sobre el Agua", Flag = "CaminarsobreelAgua", Save = true, Default = false,
     Callback = function(Value)
         local Water = workspace:FindFirstChild("WaterLevel")
         if not Water then Water = workspace.Structure:FindFirstChild("FloodLevel") end
@@ -345,14 +345,14 @@ Tab_Player:AddToggle({
 })
 
 Tab_Player:AddToggle({
-    Name = "Disable Void (FallenParts)", Default = false,
+    Name = "Disable Void (FallenParts)", Flag = "DisableVoidFallenParts", Save = true, Default = false,
     Callback = function(state)
         workspace.FallenPartsDestroyHeight = state and (0/0) or -500
     end
 })
 
 Tab_Player:AddToggle({
-    Name = "Toggle TP Tool", Default = false,
+    Name = "Toggle TP Tool", Flag = "ToggleTPTool", Save = true, Default = false,
     Callback = function(state)
         MainConfig.tptool = state
         if state then TPTool.Parent = LocalPlayer.Backpack else TPTool.Parent = nil end
@@ -383,7 +383,7 @@ end
 UpdatePlayerList()
 
 local PlayerDropdown = Tab_Teleport:AddDropdown({
-    Name = "Seleccionar Jugador", Options = PlayerList,
+    Name = "Seleccionar Jugador", Flag = "SeleccionarJugador", Save = true, Options = PlayerList,
     Callback = function(Value) SelectedPlayer = Value end
 })
 
@@ -462,7 +462,7 @@ Tab_Teleport:AddButton({
 
 Tab_Visual:AddSection("Mapa")
 Tab_Visual:AddToggle({
-    Name = "Isla Sólida (Rocks)", Default = false,
+    Name = "Isla Sólida (Rocks)", Flag = "IslaSlidaRocks", Save = true, Default = false,
     Callback = function(Value)
         for _, descendant in pairs(workspace:GetDescendants()) do
             if descendant.Name == "LowerRocks" then descendant.CanCollide = Value end
@@ -471,7 +471,7 @@ Tab_Visual:AddToggle({
 })
 
 Tab_Visual:AddToggle({
-    Name = "Reduce Earthquake", Default = false,
+    Name = "Reduce Earthquake", Flag = "ReduceEarthquake", Save = true, Default = false,
     Callback = function(state)
         getgenv().EarthquakeReducer = state
         if state then
@@ -492,7 +492,7 @@ Tab_Visual:AddButton({ Name = "Día (Visual)", Callback = function() Lighting.Cl
 Tab_Visual:AddButton({ Name = "Noche (Visual)", Callback = function() Lighting.ClockTime = 0; Lighting.Brightness = 0.2; Lighting.FogEnd = 300 end })
 
 Tab_Visual:AddToggle({
-    Name = "Forcefield Island", Default = false,
+    Name = "Forcefield Island", Flag = "ForcefieldIsland", Save = true, Default = false,
     Callback = function(state)
         for _, part in pairs(workspace.Island:GetDescendants()) do
             if part:IsA("BasePart") then part.Material = state and Enum.Material.ForceField or Enum.Material.Plastic end
@@ -525,7 +525,7 @@ Tab_Visual:AddButton({
 })
 
 Tab_Visual:AddToggle({
-    Name = "Disable Virus Orbs", Default = false,
+    Name = "Disable Virus Orbs", Flag = "DisableVirusOrbs", Save = true, Default = false,
     Callback = function(state)
         getgenv().VirusRemover = state
         if state then
@@ -544,7 +544,7 @@ Tab_Visual:AddToggle({
 
 Tab_Visual:AddSection("Efectos RGB")
 Tab_Visual:AddToggle({
-    Name = "RGB Disaster Effects", Default = false,
+    Name = "RGB Disaster Effects", Flag = "RGBDisasterEffects", Save = true, Default = false,
     Callback = function(state)
         getgenv().RgbDisaster = state
         if state then
@@ -565,7 +565,7 @@ Tab_Visual:AddToggle({
 })
 
 Tab_Visual:AddToggle({
-    Name = "RGB Water", Default = false,
+    Name = "RGB Water", Flag = "RGBWater", Save = true, Default = false,
     Callback = function(state)
         getgenv().RgbWater = state
         if state then
@@ -590,5 +590,5 @@ Tab_Misc:AddButton({ Name = "Infinite Yield", Callback = function() loadstring(g
 Tab_Misc:AddButton({ Name = "Fly Gui V3", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/ySixxNz/projects-.lua/https/Fly%20Gui"))() end })
 Tab_Misc:AddButton({ Name = "Coche volador", Callback = function() loadstring(game:HttpGet("https://pastebin.com/raw/MHE1cbWF"))() end })
 Tab_Misc:AddButton({ Name = "Fling All", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/FloppHub-Team/Scripts/main/FlingAll"))() end })
-Tab_Misc:AddToggle({ Name = "Anti Fling", Default = false, Callback = function(v) getgenv().AntiFling = v end })
+Tab_Misc:AddToggle({ Name = "Anti Fling", Flag = "AntiFling", Save = true, Default = false, Callback = function(v) getgenv().AntiFling = v end })
 Tab_Misc:AddButton({ Name = "Destruir Hub", Callback = function() Library:Destroy() end })
